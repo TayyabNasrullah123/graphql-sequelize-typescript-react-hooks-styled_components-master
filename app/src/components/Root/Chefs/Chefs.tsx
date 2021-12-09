@@ -45,6 +45,20 @@ const Restaurants = styled.div`
 
 const Wrapper = styled.div``;
 
+const Button = styled.button`
+  color: white;
+  background: palevioletred;
+  font-size: 20px;
+  margin: 10px;
+  padding: 5px 20px;
+  border: 2px solid palevioletred;
+  border-radius: 3px;
+  cursor: pointer;
+  :hover {
+    
+  }
+`;
+
 const query = gql`
   {
     chefs {
@@ -72,7 +86,6 @@ const deleteChefMutation = gql`
     deleteChef(id: $id)
   }
 `;
-
 
 const createRestaurantMutation = gql`
   mutation ($chefId: ID!, $name: String!) {
@@ -107,15 +120,14 @@ const Chefs = () => {
       {data?.chefs.map((chef) => (
         <Chef key={chef.id}>
           <ChefName>{chef.name}</ChefName>
-          <button
-            style={{ color: "red" }}
+          <Button
             onClick={async () => {
               await deleteChef({ variables: { id: chef.id } });
               refetch();
             }}
           >
             Delete
-          </button>
+          </Button>
           <Restaurants>
             {chef.restaurants.map((restaurant) => (
               <Restaurant key={restaurant.id}>{restaurant.name}</Restaurant>
