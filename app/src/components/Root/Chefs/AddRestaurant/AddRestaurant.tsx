@@ -4,7 +4,7 @@ import useForm from "react-hook-form";
 import styled from "styled-components";
 
 interface AddRestaurantProps {
-  onAddRestaurant: ({ name: string }) => Promise<void>;
+  onAddRestaurant: ({ name}: {name: string}) => Promise<void>;
 }
 
 type FormData = {

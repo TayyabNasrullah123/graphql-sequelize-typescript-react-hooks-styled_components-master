@@ -91,11 +91,11 @@ const Chefs = () => {
     createChefMutation
   );
 
-  if (loading) return "Loading...";
+  if (loading) return <p> "Loading..."</p>;
 
   return (
     <Wrapper>
-      {data.chefs.map(chef => (
+      {data?.chefs.map(chef => (
         <Chef key={chef.id}>
           <ChefName>{chef.name}</ChefName>
           <Restaurants>
