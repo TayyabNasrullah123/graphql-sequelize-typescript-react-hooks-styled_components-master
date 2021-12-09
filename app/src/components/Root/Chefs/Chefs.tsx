@@ -59,7 +59,7 @@ const query = gql`
 `;
 
 const createChefMutation = gql`
-  mutation($name: String!) {
+  mutation ($name: String!) {
     createChef(name: $name) {
       id
       name
@@ -67,8 +67,15 @@ const createChefMutation = gql`
   }
 `;
 
+const deleteChefMutation = gql`
+  mutation ($id: String!) {
+    deleteChef(id: $id)
+  }
+`;
+
+
 const createRestaurantMutation = gql`
-  mutation($chefId: ID!, $name: String!) {
+  mutation ($chefId: ID!, $name: String!) {
     createRestaurant(chefId: $chefId, name: $name) {
       id
       name
@@ -91,21 +98,32 @@ const Chefs = () => {
     createChefMutation
   );
 
+  const [deleteChef] = useMutation<{ deleteChef: String }>(deleteChefMutation);
+
   if (loading) return <p> "Loading..."</p>;
 
   return (
     <Wrapper>
-      {data?.chefs.map(chef => (
+      {data?.chefs.map((chef) => (
         <Chef key={chef.id}>
           <ChefName>{chef.name}</ChefName>
+          <button
+            style={{ color: "red" }}
+            onClick={async () => {
+              await deleteChef({ variables: { id: chef.id } });
+              refetch();
+            }}
+          >
+            Delete
+          </button>
           <Restaurants>
-            {chef.restaurants.map(restaurant => (
+            {chef.restaurants.map((restaurant) => (
               <Restaurant key={restaurant.id}>{restaurant.name}</Restaurant>
             ))}
             <AddRestaurant
               onAddRestaurant={async ({ name }) => {
                 await createRestaurant({
-                  variables: { chefId: chef.id, name }
+                  variables: { chefId: chef.id, name },
                 });
                 refetch();
               }}
