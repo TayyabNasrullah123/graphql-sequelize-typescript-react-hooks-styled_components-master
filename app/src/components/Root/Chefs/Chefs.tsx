@@ -21,6 +21,10 @@ interface Restaurant {
   name: string;
 }
 
+interface ChefButton {
+  primary: boolean;
+}
+
 const Chef = styled.div`
   margin-bottom: 1rem;
 `;
@@ -45,9 +49,9 @@ const Restaurants = styled.div`
 
 const Wrapper = styled.div``;
 
-const Button = styled.button`
-  color: white;
-  background: palevioletred;
+export const Button = styled.button<ChefButton>`
+    color: ${props => (props.primary ? "white" : "palevioletred")};
+  background: ${props => (props.primary ? "palevioletred" : "white")};
   font-size: 20px;
   margin: 10px;
   padding: 5px 20px;
@@ -55,7 +59,8 @@ const Button = styled.button`
   border-radius: 3px;
   cursor: pointer;
   :hover {
-    
+    transform: scale(1.01) translateY(-2px);
+    box-shadow: rgb(219 112 147) 0px 9px 20px -5px;
   }
 `;
 
@@ -120,7 +125,7 @@ const Chefs = () => {
       {data?.chefs.map((chef) => (
         <Chef key={chef.id}>
           <ChefName>{chef.name}</ChefName>
-          <Button
+          <Button primary
             onClick={async () => {
               await deleteChef({ variables: { id: chef.id } });
               refetch();

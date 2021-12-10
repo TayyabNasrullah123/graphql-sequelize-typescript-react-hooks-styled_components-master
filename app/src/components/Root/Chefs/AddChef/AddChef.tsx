@@ -1,23 +1,25 @@
 import * as React from "react";
 import useForm from "react-hook-form";
 import styled from "styled-components";
-
+import { Button } from "../Chefs";
 interface AddChefProps {
   onAddChef: ({ name }: { name: string }) => Promise<void>;
 }
 
-const Button = styled.button`
-  display: inline-block;
-  font-family: inherit;
-  font-size: 1.2rem;
-  font-weight: 300;
-  margin-left: 0.5rem;
-`;
+// const Button = styled.button`
+//   display: inline-block;
+//   font-family: inherit;
+//   font-size: 1.2rem;
+//   font-weight: 300;
+//   margin-left: 0.5rem;
+// `;
 
 const TextField = styled.input`
   font-family: inherit;
   font-size: 1.2rem;
   font-weight: 300;
+  border-bottom: 1px solid black;
+  padding: 0.5em;
 `;
 
 const Wrapper = styled.form`
@@ -29,7 +31,7 @@ const AddChef = ({ onAddChef: pushAddChef }: AddChefProps) => {
     formState: { isSubmitting, isValid },
     handleSubmit,
     register,
-    reset
+    reset,
   } = useForm<{ name: string }>({ mode: "onChange" });
 
   const onSubmit = handleSubmit(async ({ name }) => {
@@ -46,7 +48,7 @@ const AddChef = ({ onAddChef: pushAddChef }: AddChefProps) => {
         ref={register({ required: true })}
         type="text"
       />
-      <Button disabled={isSubmitting || !isValid} type="submit">
+      <Button primary={false} disabled={isSubmitting || !isValid} type="submit">
         Add Chef
       </Button>
     </Wrapper>
